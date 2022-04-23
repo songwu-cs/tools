@@ -19,12 +19,16 @@ import java.util.List;
 public class TransformCoordinates {
     private CoordinateReferenceSystem from;
     private CoordinateReferenceSystem to;
+    private int source;
+    private int target;
     private MathTransform transformer;
 
     public TransformCoordinates(int source, int target){
         try {
             from = CRS.decode("EPSG:" + source);
             to = CRS.decode("EPSG:" + target);
+            this.source = source;
+            this.target = target;
             transformer = CRS.findMathTransform(from, to);
         } catch (FactoryException e) {
             e.printStackTrace();
@@ -42,13 +46,21 @@ public class TransformCoordinates {
     }
 
     public Coordinate go(double x, double y) throws TransformException {
-        return JTS.transform(new Coordinate(y, x),
-                null, transformer);
+        if(source == 4326){
+            return JTS.transform(new Coordinate(y, x), null, transformer);
+        }else {
+            Coordinate coordinate = JTS.transform(new Coordinate(x, y), null, transformer);
+            return new Coordinate(coordinate.y, coordinate.x, coordinate.z);
+        }
     }
 
     public Coordinate go(@NotNull TransformCoordinateIF point) throws TransformException {
-        return JTS.transform(new Coordinate(point.latitudeY(), point.longitudeX()),
-                null, transformer);
+        if(source == 4326){
+            return JTS.transform(new Coordinate(point.latitudeY(), point.longitudeX()), null, transformer);
+        }else {
+            Coordinate coordinate = JTS.transform(new Coordinate(point.longitudeX(), point.latitudeY()), null, transformer);
+            return new Coordinate(coordinate.y, coordinate.x, coordinate.z);
+        }
     }
 
     public List<Coordinate> go(@NotNull List<TransformCoordinateIF> points) throws TransformException {
@@ -66,7 +78,8 @@ public class TransformCoordinates {
     }
 
     public static void main(String[] args) throws FactoryException, TransformException {
-        TransformCoordinates transformCoordinates = new TransformCoordinates(4326, 25832);
-        System.out.println(transformCoordinates.go(15.134207,55.054825));
+        TransformCoordinates transformCoordinates = new TransformCoordinates(4326, 3857);
+        System.out.println(transformCoordinates.go(32.326948,31.1637222));
+
     }
 }

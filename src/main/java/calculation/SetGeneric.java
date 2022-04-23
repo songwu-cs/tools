@@ -14,7 +14,7 @@ public class SetGeneric {
         return answer;
     }
 
-    //会移除a中的元素
+    //不会改变a和b
     public static <T> boolean equals(@NotNull Set<T> a, @NotNull Set<T> b){
         if(a.size() != b.size())
             return false;
