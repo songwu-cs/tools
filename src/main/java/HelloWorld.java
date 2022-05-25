@@ -8,11 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 public class HelloWorld {
     public static void main(String[] args) throws SQLException, IOException {
 
-
+        System.out.println(Arrays.toString("a,b,,,,0".split(",")));
     }
 }

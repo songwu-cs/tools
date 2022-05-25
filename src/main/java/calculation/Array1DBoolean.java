@@ -1,5 +1,8 @@
 package calculation;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -111,8 +114,29 @@ public class Array1DBoolean {
         return answer;
     }
 
+    public static List<Integer> runLengthEncoding(@NotNull boolean[] bools){
+        List<Integer> answer = new ArrayList<>();
+        int status = bools[0] ? 1 : -1;
+        for(int i = 1; i < bools.length; i++){
+            if(bools[i] && status > 0){
+                status++;
+            }else if (bools[i] && status < 0){
+                answer.add(status);
+                status = 1;
+            }else if ((!bools[i]) && status > 0){
+                answer.add(status);
+                status = -1;
+            }else {
+                status--;
+            }
+        }
+        answer.add(status);
+        return answer;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(falseTo0TrueIncrease(new boolean[]{false,true,true,false,true})));
-        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
+//        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
+        System.out.println(runLengthEncoding(new boolean[]{false,true,true,false,false,true}));
     }
 }

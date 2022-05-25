@@ -1,6 +1,7 @@
 package clustering;
 
 import calculation.ArrayDoubleTwo;
+import model.Trajectory;
 
 import java.util.*;
 
@@ -11,6 +12,10 @@ public class DBSCAN {
     public DBSCAN(int minpts, double epsilon) {
         this.minpts = minpts;
         this.epsilon = epsilon;
+    }
+
+    public void preprocess(List<Trajectory> trajs, String ts, int gapInSeconds){
+
     }
 
     //簇之间不会有重叠

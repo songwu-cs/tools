@@ -50,7 +50,8 @@ public class TransformCoordinates {
             return JTS.transform(new Coordinate(y, x), null, transformer);
         }else {
             Coordinate coordinate = JTS.transform(new Coordinate(x, y), null, transformer);
-            return new Coordinate(coordinate.y, coordinate.x, coordinate.z);
+            return target == 4326 ? new Coordinate(coordinate.y, coordinate.x, coordinate.z)
+                                :   new Coordinate(coordinate.x, coordinate.y, coordinate.z);
         }
     }
 
@@ -59,7 +60,8 @@ public class TransformCoordinates {
             return JTS.transform(new Coordinate(point.latitudeY(), point.longitudeX()), null, transformer);
         }else {
             Coordinate coordinate = JTS.transform(new Coordinate(point.longitudeX(), point.latitudeY()), null, transformer);
-            return new Coordinate(coordinate.y, coordinate.x, coordinate.z);
+            return target == 4326 ? new Coordinate(coordinate.y, coordinate.x, coordinate.z)
+                                :   new Coordinate(coordinate.x, coordinate.y, coordinate.z);
         }
     }
 
@@ -78,8 +80,7 @@ public class TransformCoordinates {
     }
 
     public static void main(String[] args) throws FactoryException, TransformException {
-        TransformCoordinates transformCoordinates = new TransformCoordinates(4326, 3857);
-        System.out.println(transformCoordinates.go(32.326948,31.1637222));
-
+        TransformCoordinates transformCoordinates = new TransformCoordinates(4326, 25832);
+        System.out.println(transformCoordinates.go(32.0545638, 31.6656578));
     }
 }

@@ -2,6 +2,7 @@ package calculation;
 
 import function.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +17,15 @@ public class ListGeneric {
             return null;
         List<T> answer = new ArrayList<>();
         answer.addAll(source);
+        return answer;
+    }
+
+    public static <T> List<T> booleanSelect(@NotNull List<T> ts, @NotNull boolean[] boolArr){
+        List<T> answer = new ArrayList<>();
+        for(int i = 0; i < boolArr.length; i++){
+            if(boolArr[i])
+                answer.add(ts.get(i));
+        }
         return answer;
     }
 
