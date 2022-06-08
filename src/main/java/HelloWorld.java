@@ -14,6 +14,12 @@ import java.util.List;
 public class HelloWorld {
     public static void main(String[] args) throws SQLException, IOException {
 
-        System.out.println(Arrays.toString("a,b,,,,0".split(",")));
+        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\TJUer\\Desktop\\1.txt"));
+        System.out.println(reader.readLine());
+        System.out.println(reader.readLine());
+        System.out.println(reader.readLine());
+        System.out.println(reader.readLine());
+        System.out.println(reader.readLine());
+        reader.close();
     }
 }

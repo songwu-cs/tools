@@ -2,6 +2,7 @@ package io.bigdata;
 
 import calculation.ListGeneric;
 import calculation.UnitString;
+import calculation.UnitStringSorter;
 
 import java.io.*;
 import java.nio.Buffer;
@@ -62,7 +63,7 @@ public class MergeSortedFiles {
     public void go() throws IOException{
         File dir = new File(baseDir);
         List<String> files = ListGeneric.filter(Arrays.asList(dir.list()), fileFilter);
-        SortFiles.FileSorter fileSorter = new SortFiles.FileSorter(sortColumns, sortAscending);
+        UnitStringSorter fileSorter = new UnitStringSorter(sortColumns, sortAscending);
 
         try(PrintWriter writer = new PrintWriter(baseDir + "\\" + outfile)){
             writer.write(header); writer.write("\n");
@@ -110,13 +111,13 @@ public class MergeSortedFiles {
 
     public static void main(String[] args) throws IOException {
         MergeSortedFiles mergeSortedFiles = new MergeSortedFiles();
-        mergeSortedFiles.setBaseDir("C:\\Users\\TJUer\\Desktop\\test")
-                .setWithHeader(true)
-                .setRetainedColumns(new int[]{0,1})
-                .setHeader("city,gdp")
-                .setOutfile("merged.csv")
-                .setFileFilter(s -> s.endsWith("txt"))
-                .setSortColumns(new int[]{0,1})
+        mergeSortedFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS")
+                .setWithHeader(false)
+                .setRetainedColumns(new int[]{2,0,4,3,13})
+                .setHeader("mmsi,timestamp,longitude,latitude,shiptype")
+                .setOutfile("aisdk_oneweek_sorted.csv")
+                .setFileFilter(s -> s.startsWith("tmp"))
+                .setSortColumns(new int[]{2,0})
                 .setSortAscending(new boolean[]{true,true});
         mergeSortedFiles.go();
     }

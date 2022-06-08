@@ -8,6 +8,10 @@ import java.util.List;
 public class BatchFileReader implements Closeable, Iterable<List<String>> {
     private static final String VOID = "dummy";
     private final BufferedReader bufferedReader;
+    private final List<BufferedReader> extraReaders;
+    private BufferedReader currentReader;
+    private int currentIndex = -1;
+    private boolean valid;
     private final String splitter;
     private final int[] keys;
 
@@ -17,13 +21,29 @@ public class BatchFileReader implements Closeable, Iterable<List<String>> {
 
     public BatchFileReader(String path, String splitter, boolean withHeader, int... indices) throws IOException {
         this.bufferedReader = new BufferedReader(new FileReader(path));
-        this.splitter = splitter;
+        currentReader = bufferedReader;
+        extraReaders = new ArrayList<>();
         keys = indices;
+        valid = true;
+        this.splitter = splitter;
         if (withHeader)
             bufferedReader.readLine();
     }
 
+    public BatchFileReader addPath(String path, boolean withHeader) throws IOException {
+        if(! valid){
+            throw new RuntimeException("Error: Trying to add new files after already reading data !!!");
+        }
+
+        extraReaders.add(new BufferedReader(new FileReader(path)));
+        if(withHeader)
+            extraReaders.get(extraReaders.size()-1).readLine();
+        return this;
+    }
+
     public List<String> readBatch() throws IOException {
+        valid = false;
+
         if(ended)
             return null;
         List<String> answer = new ArrayList<>();
@@ -31,21 +51,30 @@ public class BatchFileReader implements Closeable, Iterable<List<String>> {
             answer.add(lineHelp);
 
         String line = "";
-        while ((line = bufferedReader.readLine()) != null){
-            String[] parts = line.split(splitter);
-            String key_ = "";
-            for(int i : keys)
-                key_ += parts[i];
+        while (true){
+            while ((line = currentReader.readLine()) != null){
+                String[] parts = line.split(splitter);
+                String key_ = "";
+                for(int i : keys)
+                    key_ += parts[i];
 
-            if(previousKey.equals(VOID)){
-                previousKey = key_;
+                if(previousKey.equals(VOID)){
+                    previousKey = key_;
+                }
+                if(key_.equals(previousKey)){
+                    answer.add(line);
+                }else {
+                    previousKey = key_;
+                    lineHelp = line;
+                    return answer;
+                }
             }
-            if(key_.equals(previousKey)){
-                answer.add(line);
+
+            currentIndex++;
+            if(extraReaders.size() > currentIndex){
+                currentReader = extraReaders.get(currentIndex);
             }else {
-                previousKey = key_;
-                lineHelp = line;
-                return answer;
+                break;
             }
         }
 
@@ -59,6 +88,8 @@ public class BatchFileReader implements Closeable, Iterable<List<String>> {
     @Override
     public void close() throws IOException {
         bufferedReader.close();
+        for(BufferedReader reader : extraReaders)
+            reader.close();
     }
 
     @Override
@@ -86,7 +117,12 @@ public class BatchFileReader implements Closeable, Iterable<List<String>> {
     }
 
     public static void main(String[] args) throws IOException {
-        BatchFileReader reader = new BatchFileReader("H:\\UpanSky\\DEDS_Java\\tools\\src\\main\\resources\\1.txt", ",", true, 0,2);
+//        BatchFileReader reader = new BatchFileReader("H:\\UpanSky\\DEDS_Java\\tools\\src\\main\\resources\\1.txt", ",", true, 0,2);
+
+        BatchFileReader reader = new BatchFileReader("C:\\Users\\TJUer\\Desktop\\1.txt", ",", false, 0);
+        reader.addPath("C:\\Users\\TJUer\\Desktop\\2.txt", false);
+        reader.addPath("C:\\Users\\TJUer\\Desktop\\3.txt", false);
+
         for(List<String> lines : reader)
             System.out.println(lines);
     }

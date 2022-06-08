@@ -81,6 +81,9 @@ public class TransformCoordinates {
 
     public static void main(String[] args) throws FactoryException, TransformException {
         TransformCoordinates transformCoordinates = new TransformCoordinates(4326, 25832);
-        System.out.println(transformCoordinates.go(32.0545638, 31.6656578));
+        System.out.println(transformCoordinates.go(32.05414040966548, 31.665706598040853));
+
+//        TransformCoordinates transformCoordinates = new TransformCoordinates(25832, 4326);
+//        System.out.println(transformCoordinates.go(2711666.730513969, 3745078.982149087));
     }
 }
