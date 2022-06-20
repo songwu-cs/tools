@@ -111,11 +111,11 @@ public class MergeSortedFiles {
 
     public static void main(String[] args) throws IOException {
         MergeSortedFiles mergeSortedFiles = new MergeSortedFiles();
-        mergeSortedFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS")
+        mergeSortedFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS_May_2022")
                 .setWithHeader(false)
-                .setRetainedColumns(new int[]{2,0,4,3,13})
-                .setHeader("mmsi,timestamp,longitude,latitude,shiptype")
-                .setOutfile("aisdk_oneweek_sorted.csv")
+                .setRetainedColumns(new int[]{2,0,4,3,13,5})
+                .setHeader("mmsi,timestamp,longitude,latitude,shiptype,status")
+                .setOutfile("aisdk_onemonth_sorted.csv")
                 .setFileFilter(s -> s.startsWith("tmp"))
                 .setSortColumns(new int[]{2,0})
                 .setSortAscending(new boolean[]{true,true});

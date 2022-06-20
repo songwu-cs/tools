@@ -7,6 +7,9 @@ import java.sql.SQLException;
 public class DenmarkCoast extends PG{
     private static final String sqlTemplate1 = "with tt(p) as (select ST_SetSRID(st_makepoint({x}, {y}), {crs})) select (exists (select 1 from tt t1, {table} t2 where st_dwithin(t1.p, t2.{field}, {distance})))";
     private static final String sqlTemplate2 = "SELECT ST_Distance(ST_SetSRID(st_makepoint({x}, {y}), {crs}),t.{field}) from {table} t;";
+
+    private static final String sqlTemplate3 = "with t(p) as (select st_transform(ST_SetSRID(st_makepoint({lon}, {lat}),4326), 25832)) select concat(st_x(p)::text, ',', st_y(p)::text) from t";
+
     private String tableName;
     private String fieldName;
     private int crs;
@@ -50,6 +53,16 @@ public class DenmarkCoast extends PG{
         return answer;
     }
 
+    synchronized public String getDenmarkCoordinate(double longitude, double latitude) throws SQLException{
+        String sql = sqlTemplate3.replace("{lon}", longitude+"")
+                .replace("{lat}", latitude+"");
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        String answer = rs.getString(1);
+        rs.close();
+        return answer;
+    }
+
     synchronized public double getDistanceToShore(double x, double y) throws SQLException {
         String sql = sqlTemplate2.replace("{x}", x+"")
                 .replace("{y}", y+"")
@@ -65,7 +78,7 @@ public class DenmarkCoast extends PG{
 
 
     public static void main(String[] args) throws SQLException, IOException {
-        DenmarkCoast denmarkCoast = new DenmarkCoast("172.29.129.234",
+        DenmarkCoast denmarkCoast = new DenmarkCoast("localhost",
                 "bmda22",
                 "postgres",
                 "wusong",
@@ -74,6 +87,6 @@ public class DenmarkCoast extends PG{
                 "denmark_administrative_national_boundary",
                 "geom25832");
         System.out.println(denmarkCoast.getDistanceToShore(891602.8556426356, 6118102.93948347));
-
+        System.out.println(denmarkCoast.getDenmarkCoordinate(5, 50));
     }
 }

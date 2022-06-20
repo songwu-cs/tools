@@ -73,10 +73,10 @@ public class ListInteger {
     }
 
     public static void main(String[] args) {
-//        List<Integer> is = new ArrayList<>();
-//        is.add(0); is.add(1);
-//        System.out.println(splitInterval(is, 10));
+        List<Integer> is = new ArrayList<>();
+        is.add(0); is.add(1); is.add(5);
+        System.out.println(splitInterval(is, 10));
 
-        System.out.println(trueWin(Arrays.asList(-2,3,-2,1)));
+//        System.out.println(trueWin(Arrays.asList(-2,3,-2,1)));
     }
 }
