@@ -5,11 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OneTimestamp {
-    public static final SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormatExt formatter1 = new SimpleDateFormatExt("yyyy-MM-dd HH:mm:ss");
 
-    public static String add(String date, int hour, int minute, int second, SimpleDateFormat format){
+    public static String add(String date, int hour, int minute, int second, SimpleDateFormatExt format){
         try {
-            return format.format(new Date(format.parse(date).getTime() + 1000 * (hour * 3600 + minute * 60 + second)));
+            return format.formatExt(new Date(format.parse(date).getTime() + 1000 * (hour * 3600 + minute * 60 + second)));
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -26,8 +26,22 @@ public class UnitString {
         return -1;
     }
 
+    //requires an even number of quotes
+    public static String replaceCommaInQuote(String source, char oldChar, char newChar){
+        char[] chars = source.toCharArray();
+        boolean firstQuoteAppeared = false;
+        for(int i = 0; i < chars.length; i++){
+            if(firstQuoteAppeared && chars[i] == oldChar)
+                chars[i] = newChar;
+            else if (chars[i] == '"') {
+                firstQuoteAppeared = !firstQuoteAppeared;
+            }
+        }
+        return new String(chars);
+    }
+
     public static void main(String[] args) {
 //        System.out.println(nthIndexOf("", "ab", 4));
-        System.out.println(subset("A,B,C,D", ",", 0, 2,3));
+//        System.out.println(subset("A,B,C,D", ",", 0, 2,3));
     }
 }

@@ -136,7 +136,7 @@ public class Array1DBoolean {
 
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(falseTo0TrueIncrease(new boolean[]{false,true,true,false,true})));
-//        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
+        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
 //        System.out.println(runLengthEncoding(new boolean[]{false,true,true,false,false,true}));
     }
 }

@@ -102,10 +102,9 @@ public class ListGeneric {
         System.out.println(filter(ss, e->e.length()==2));
 //        System.out.println(lastIndex(ss, e -> e.length() == 3));
 
-//        for(List<String> ls : groupString(ss, e -> e.substring(0,1))){
-//            System.out.println(ls);
-//        }
-
+        for(List<String> ls : groupString(ss, e -> e.substring(0,1))){
+            System.out.println(ls);
+        }
 
     }
 }

@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TwoTimestamp {
-    public static final SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormatExt formatter1 = new SimpleDateFormatExt("yyyy-MM-dd HH:mm:ss");
 
-    public static double diffInSeconds(String t1, String t2, SimpleDateFormat formatter){
+    public static final SimpleDateFormatExt formatter2 = new SimpleDateFormatExt("dd/MM/yyyy HH:mm:ss");
+
+    public static double diffInSeconds(String t1, String t2, SimpleDateFormatExt formatter){
         long l1 = 0;
         long l2 = 0;
         try {

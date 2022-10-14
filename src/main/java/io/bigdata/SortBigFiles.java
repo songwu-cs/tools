@@ -55,6 +55,10 @@ public class SortBigFiles {
         for(String file : files){
             try(BlockFileReader reader = new BlockFileReader(baseDir + "\\" + file, ",", true, blockSize)){
                 for(List<String> block : reader){
+                    if(counter < 73){
+                        counter++;
+                        continue;
+                    }
                     block.sort(fileSorter);
                     try(PrintWriter writer = new PrintWriter(baseDir + "\\" + "tmp" + counter)){
                         for(String line : block){
@@ -70,9 +74,9 @@ public class SortBigFiles {
 
     public static void main(String[] args) throws IOException {
         SortBigFiles sortBigFiles = new SortBigFiles();
-        sortBigFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS_May_2022")
+        sortBigFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS_May_2022\\aisdk-2022-05")
                 .setBlockSize(4000000)
-                .setFileFilter(s->s.startsWith("aisdk"))
+                .setFileFilter(s->s.startsWith("file"))
                 .setWithHeader(true)
                 .setSortColumns(new int[]{2,0})
                 .setSortAscending(new boolean[]{true,true});

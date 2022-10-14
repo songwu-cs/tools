@@ -4,6 +4,7 @@ import calculation.ListGeneric;
 import calculation.ListString;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TrajSegmentation {
@@ -37,6 +38,11 @@ public class TrajSegmentation {
     }
 
     public static void main(String[] args) {
-        
+        List<String> truth = new ArrayList<>();
+        truth.addAll(Arrays.asList("g1","g1","g1","g1","g2","g2","g2","g3","g3","g3"));
+        List<String> pred = new ArrayList<>();
+        pred.addAll(Arrays.asList("r1","r1","r1","r1","r1","r1","r2","r2","r2","r2"));
+
+        System.out.println(purity(truth, pred, false));
     }
 }

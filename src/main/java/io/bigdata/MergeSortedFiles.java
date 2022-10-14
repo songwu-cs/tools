@@ -23,6 +23,7 @@ public class MergeSortedFiles {
     private int[] sortColumns;
     private boolean[] sortAscending;
     private boolean withHeader;
+    private boolean allColumnsKept;
 
     public MergeSortedFiles() {
     }
@@ -60,6 +61,10 @@ public class MergeSortedFiles {
         this.header = header;return this;
     }
 
+    public MergeSortedFiles setAllColumnsKept(boolean allColumnsKept) {
+        this.allColumnsKept = allColumnsKept; return this;
+    }
+
     public void go() throws IOException{
         File dir = new File(baseDir);
         List<String> files = ListGeneric.filter(Arrays.asList(dir.list()), fileFilter);
@@ -91,7 +96,12 @@ public class MergeSortedFiles {
 
                 for(int i = 0; i < readers.size(); i++){
                     priorityQueue.poll();
-                    writer.write(UnitString.subset(minimum, ",", retainedColumns));
+
+                    if(allColumnsKept)
+                        writer.write(minimum);
+                    else
+                        writer.write(UnitString.subset(minimum, ",", retainedColumns));
+
                     writer.write("\n");
                 }
 
@@ -111,10 +121,11 @@ public class MergeSortedFiles {
 
     public static void main(String[] args) throws IOException {
         MergeSortedFiles mergeSortedFiles = new MergeSortedFiles();
-        mergeSortedFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS_May_2022")
+        mergeSortedFiles.setBaseDir("H:\\UpanSky\\DEDS_DenmarkAIS_May_2022\\aisdk-2022-05")
                 .setWithHeader(false)
-                .setRetainedColumns(new int[]{2,0,4,3,13,5})
-                .setHeader("mmsi,timestamp,longitude,latitude,shiptype,status")
+                .setAllColumnsKept(true)
+                .setRetainedColumns(new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25})
+                .setHeader("timestamp,typeOfMobile,mmsi,latitude,longitude,navigationalStatus,ROT,SOG,COG,heading,IMO,Callsign,Name,ShipType,CargoType,Width,Length,TypeOfPositionFixingDevice,Draught,Destination,ETA,DataSourceType,A,B,C,D")
                 .setOutfile("aisdk_onemonth_sorted.csv")
                 .setFileFilter(s -> s.startsWith("tmp"))
                 .setSortColumns(new int[]{2,0})
