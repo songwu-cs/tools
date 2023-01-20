@@ -1,5 +1,7 @@
 package calculation;
 
+import java.util.Arrays;
+
 public class Array1DNumber {
     private static double BadDouble = -1;
 
@@ -17,6 +19,28 @@ public class Array1DNumber {
             probs[i] = 1.0 * frequency[i] / sum;
 
         return entropy(probs);
+    }
+
+    public static int closest(double[] ds, double key){
+        if(ds == null || ds.length == 0)
+            return (int)BadDouble;
+
+        int latPos = Arrays.binarySearch(ds, key);
+        if(latPos < 0){
+            latPos = -latPos - 1;
+            int latPosRight = latPos;
+            int latPosLeft = latPos - 1;
+            if (latPosRight >= ds.length)
+                latPos = ds.length - 1;
+            else if (latPosLeft < 0) {
+                latPos = 0;
+            }else {
+                double diffRight = ds[latPosRight] - key;
+                double diffLeft = key - ds[latPosLeft];
+                latPos = diffRight >= diffLeft ? latPosLeft : latPosRight;
+            }
+        }
+        return latPos;
     }
 
     //不接受0或者负数

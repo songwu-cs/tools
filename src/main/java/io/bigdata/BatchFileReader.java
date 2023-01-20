@@ -19,6 +19,27 @@ public class BatchFileReader implements Closeable, Iterable<List<String>> {
     private String previousKey = VOID;
     private String lineHelp = VOID;
 
+    public static void union(String outfile, String header, List<String> paths, String splitter, boolean withHeader, int... indices) throws IOException {
+        try(BatchFileReader reader = new BatchFileReader(paths.get(0), splitter, withHeader, indices);
+            PrintWriter writer = new PrintWriter(outfile)) {
+
+            writer.write(header);
+            writer.write("\n");
+
+            for (String path : paths.subList(1, paths.size())){
+                reader.addPath(path, withHeader);
+            }
+
+            int counter = 0;
+            for (List<String> lines : reader){
+                writer.write(String.join("\n", lines));
+                writer.write("\n");
+                counter += lines.size();
+            }
+            System.out.println("Total # of lines: " + counter);
+        }
+    }
+
     public BatchFileReader(String path, String splitter, boolean withHeader, int... indices) throws IOException {
         this.bufferedReader = new BufferedReader(new FileReader(path));
         currentReader = bufferedReader;

@@ -99,7 +99,7 @@ public class ListGeneric {
     public static void main(String[] args) {
         List<String> ss = new ArrayList<>();
         ss.add("qq"); ss.add("qqq"); ss.add("ww"); ss.add("4565");
-        System.out.println(filter(ss, e->e.length()==2));
+//        System.out.println(filter(ss, e->e.length()==2));
 //        System.out.println(lastIndex(ss, e -> e.length() == 3));
 
         for(List<String> ls : groupString(ss, e -> e.substring(0,1))){

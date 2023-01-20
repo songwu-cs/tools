@@ -11,6 +11,13 @@ public class Array1DBoolean {
     public static void test(){
     }
 
+    public static boolean mode(@NotNull boolean[] bools){
+        int counterTrue = 0;
+        for(boolean b : bools)
+            counterTrue += (b ? 1 : 0);
+        return counterTrue >= bools.length - counterTrue;
+    }
+
     //空数组或者null返回null
     public static List<Integer> lastTrueIndices(boolean[] bools){
         if(bools == null || bools.length == 0)
@@ -136,7 +143,9 @@ public class Array1DBoolean {
 
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(falseTo0TrueIncrease(new boolean[]{false,true,true,false,true})));
-        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
+//        System.out.println(Arrays.toString(falseNegativeTruePositive(new boolean[]{false,true,true,false,false,true})));
 //        System.out.println(runLengthEncoding(new boolean[]{false,true,true,false,false,true}));
+//        System.out.println(lastTrueIndices(new boolean[]{false,true,true,false,false,true}));
+        System.out.println(mode(new boolean[]{false,true,false,false,true}));
     }
 }

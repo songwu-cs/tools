@@ -1,5 +1,7 @@
 package db.pg;
 
+import io.bigdata.BatchFileReader;
+
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -79,7 +81,7 @@ public class DenmarkCoast extends PG{
 
     public static void main(String[] args) throws SQLException, IOException {
         DenmarkCoast denmarkCoast = new DenmarkCoast("localhost",
-                "bmda22",
+                "denmark",
                 "postgres",
                 "wusong",
                 25832,
@@ -87,6 +89,7 @@ public class DenmarkCoast extends PG{
                 "denmark_administrative_national_boundary",
                 "geom25832");
         System.out.println(denmarkCoast.getDistanceToShore(891602.8556426356, 6118102.93948347));
-        System.out.println(denmarkCoast.getDenmarkCoordinate(5, 50));
+//        System.out.println(denmarkCoast.getDenmarkCoordinate(5, 50));
+
     }
 }

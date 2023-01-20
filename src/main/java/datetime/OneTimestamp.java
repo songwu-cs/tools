@@ -9,14 +9,22 @@ public class OneTimestamp {
 
     public static String add(String date, int hour, int minute, int second, SimpleDateFormatExt format){
         try {
-            return format.formatExt(new Date(format.parse(date).getTime() + 1000 * (hour * 3600 + minute * 60 + second)));
+            long add = 0;
+            add += hour * (long)3600;
+            add += minute * (long)60;
+            add += second;
+            add *= 1000;
+            return format.formatExt(new Date(format.parse(date).getTime() + add));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(add("2022-04-02 20:00:20", 2, 10, 20, formatter1));
+    public static void main(String[] args) throws ParseException {
+        System.out.println(add("1950-01-01 00:00:00", 634032, 0, 0, formatter1));
+//        System.out.println(formatter1.parse("1950-01-01 00:00:00").getTime());
+        System.out.println((int) 1.5);
+
     }
 }

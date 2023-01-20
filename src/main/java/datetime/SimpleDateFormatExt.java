@@ -28,8 +28,7 @@ public class SimpleDateFormatExt extends SimpleDateFormat{
     }
 
     public static void main(String[] args) throws ParseException {
-        SimpleDateFormatExt simple = new SimpleDateFormatExt(SimpleDateFormatExt.UNIXSTAMP);
-        System.out.println(simple.formatExt(new Date(1627808508)));
-        System.out.println(simple.parse("1627808508"));
+        SimpleDateFormatExt simpleUnix = new SimpleDateFormatExt(SimpleDateFormatExt.UNIXSTAMP);
+        System.out.println(OneTimestamp.formatter1.formatExt(simpleUnix.parse("1651356000")));
     }
 }

@@ -72,6 +72,16 @@ public class ListInteger {
         return answer;
     }
 
+    public static int[] toArray(List<Integer> ds){
+        int[] answer = new int[ds.size()];
+
+        int pos = 0;
+        for(int d : ds)
+            answer[pos++] = d;
+
+        return answer;
+    }
+
     public static void main(String[] args) {
         List<Integer> is = new ArrayList<>();
         is.add(0); is.add(1); is.add(5);
